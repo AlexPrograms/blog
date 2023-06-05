@@ -4,9 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BlogPost extends Model
 {
-    use SoftDeletes;
+    use HasFactory;
+
+    // Rest of your model code...
+
+    /**
+     * Define a factory for the BlogPost model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public static function factory()
+    {
+        return \Database\Factories\BlogPostFactory::new();
+    }
 }
+
