@@ -2,11 +2,12 @@
 
 @section('content')
 <table>
-    @for($i = 1; $i <= 100; $i++)
+    @foreach ($items as $item)
         <tr>
-            <td>{{ $i }}</td>
-            <td>{{ 'if we minus this with 1, it will be'}} {{ $i-1 }}</td>
+            <td>{{$item->id}}</td>
+            <td>{{$item->title}}</td>
+            <td>{{$item->created_at}}</td>
         </tr>
-    @endfor
+    @endforeach
 </table>
 @endsection
