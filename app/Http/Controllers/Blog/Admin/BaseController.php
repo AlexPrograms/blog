@@ -14,4 +14,3 @@ abstract class BaseController extends GuestBaseController
     {
         //Ініціалізація загальних елементів адмінки
     }
-}
