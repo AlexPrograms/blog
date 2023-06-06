@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Blog\Admin;
 
 // use App\Http\Controllers\Controller;
 //use Illuminate\Http\Request;
+use App\Models\BlogPost;
+use App\Http\Requests\BlogPostCreateRequest;
 use App\Models\BlogCategory;
 use Illuminate\Support\Str;
 use App\Http\Requests\BlogCategoryUpdateRequest;
@@ -52,6 +54,10 @@ class PostController extends BaseController
         $item = new BlogCategory();
         $categoryList = BlogCategory::all();
         return view('blog.admin.categories.edit', compact('item', 'categoryList'));
+        $item = new BlogPost();
+        $categoryList = $this->blogCategoryRepository->getForComboBox();
+
+        return view('blog.admin.posts.edit', compact('item', 'categoryList'));
     }
 
     /**
@@ -72,6 +78,19 @@ class PostController extends BaseController
         if ($item) {
             return redirect()
                 ->route('blog.admin.categories.edit', [$item->id])
+                ->with(['success' => 'Успішно збережено']);
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Помилка збереження'])
+                ->withInput();
+        }
+        $data = $request->input(); //отримаємо масив даних, які надійшли з форми
+
+        $item = (new BlogPost())->create($data); //створюємо об'єкт і додаємо в БД
+
+        if ($item) {
+            return redirect()
+                ->route('blog.admin.posts.edit', [$item->id])
                 ->with(['success' => 'Успішно збережено']);
         } else {
             return back()
@@ -176,6 +195,18 @@ class PostController extends BaseController
      */
     public function destroy($id)
     {
+        $result = BlogPost::destroy($id); //софт деліт, запис лишається
+
+        //$result = BlogPost::find($id)->forceDelete(); //повне видалення з БД
+
+        if ($result) {
+            return redirect()
+                ->route('blog.admin.posts.index')
+                ->with(['success' => "Запис id[$id] видалено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Помилка видалення']);
+        }
         // dd(__METHOD__);
     }
 }
