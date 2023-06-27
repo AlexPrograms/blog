@@ -13,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 class BlogPostAfterCreateJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-/**
+    /**
      * @var BlogPost
      */
     private $blogPost;
@@ -26,7 +26,6 @@ class BlogPostAfterCreateJob implements ShouldQueue
     {
         $this->blogPost = $blogPost;
     }
-
 
     /**
      * Execute the job.

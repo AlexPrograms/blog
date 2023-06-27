@@ -2,16 +2,16 @@
 
 namespace App\Observers;
 
-use App\Models\BlogCategory;
+use App\Models\BlogPost;
 use Carbon\Carbon;
 
-class BlogPostObserver 
+class BlogPostObserver
 {
     /**
      * Обробка перед створенням запису.
      *
      * @param  BlogPost  $blogPost
-     * 
+     *
      */
     public function creating(BlogPost $blogPost)
     {
@@ -24,9 +24,9 @@ class BlogPostObserver
         $this->setUser($blogPost);
     }
 
-/**
+    /**
      * Встановлюємо значення полю content_html з поля content_raw.
-     * 
+     *
      * @param BlogPost $blogPost
      */
     protected function setHtml(BlogPost $blogPost)
@@ -39,21 +39,20 @@ class BlogPostObserver
 
     /**
      * Якщо user_id не вказано, то встановимо юзера 1.
-     * 
+     *
      * @param BlogPost $blogPost
      */
     protected function setUser(BlogPost $blogPost)
     {
-        
-        $blogPost->user_id = auth()->id() ?? BlogPost::UNKNOWN_USER;
-        
-    }
 
+        $blogPost->user_id = auth()->id() ?? BlogPost::UNKNOWN_USER;
+
+    }
     /**
      * Обробка перед оновленням запису.
      *
      * @param  BlogPost  $blogPost
-     * 
+     *
      */
     public function updating(BlogPost $blogPost)
     {
@@ -63,9 +62,9 @@ class BlogPostObserver
     }
 
     /**
-     * якщо поле published_at порожнє і нам прийшло 1 в ключі is_published, 
+     * якщо поле published_at порожнє і нам прийшло 1 в ключі is_published,
      * то генеруємо поточну дату
-     * 
+     *
      * @param BlogPost $blogPost
      */
     protected function setPublishedAt(BlogPost $blogPost)
@@ -74,70 +73,70 @@ class BlogPostObserver
             $blogPost->published_at = Carbon::now();
         }
     }
-    
+
     /**
-     * якщо псевдонім порожній 
+     * якщо псевдонім порожній
      * то генеруємо псевдонім
-     * 
+     *
      * @param BlogPost $blogPost
      */
     protected function setSlug(BlogPost $blogPost)
     {
-        if (empty($blogPost->slug)) { 
+        if (empty($blogPost->slug)) {
             $blogPost->slug = \Str::slug($blogPost->title);
         }
     }
     /**
-     * Handle the BlogCategory "created" event.
+     * Handle the BlogPost "created" event.
      *
-     * @param  \App\Models\BlogCategory  $blogCategory
+     * @param  \App\Models\BlogPost  $blogPost
      * @return void
      */
-    public function created(BlogCategory $blogCategory)
+    public function created(BlogPost $blogPost)
     {
         //
     }
 
     /**
-     * Handle the BlogCategory "updated" event.
+     * Handle the BlogPost "updated" event.
      *
-     * @param  \App\Models\BlogCategory  $blogCategory
+     * @param  \App\Models\BlogPost  $blogPost
      * @return void
      */
-    public function updated(BlogCategory $blogCategory)
+    public function updated(BlogPost $blogPost)
     {
         //
     }
 
     /**
-     * Handle the BlogCategory "deleted" event.
+     * Handle the BlogPost "deleted" event.
      *
-     * @param  \App\Models\BlogCategory  $blogCategory
+     * @param  \App\Models\BlogPost  $blogPost
      * @return void
      */
-    public function deleted(BlogCategory $blogCategory)
+    public function deleted(BlogPost $blogPost)
     {
         //
     }
 
     /**
-     * Handle the BlogCategory "restored" event.
+     * Handle the BlogPost "restored" event.
      *
-     * @param  \App\Models\BlogCategory  $blogCategory
+     * @param  \App\Models\BlogPost  $blogPost
      * @return void
      */
-    public function restored(BlogCategory $blogCategory)
+    public function restored(BlogPost $blogPost)
     {
         //
     }
 
     /**
-     * Handle the BlogCategory "force deleted" event.
+     * Handle the BlogPost "force deleted" event.
      *
-     * @param  \App\Models\BlogCategory  $blogCategory
+     * @param  \App\Models\BlogPost  $blogPost
      * @return void
      */
-    public function forceDeleted(BlogCategory $blogCategory)
+    public function forceDeleted(BlogPost $blogPost)
     {
         //
     }
